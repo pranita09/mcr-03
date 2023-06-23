@@ -5,4 +5,15 @@
   padding: 0;
   margin: 0;
   font-family: "Poppins", sans-serif;
+  text-align: center;
+}
+
+th,
+td {
+  padding: 0.5rem;
+}
+
+th:hover {
+  cursor: pointer;
+  background-color: lightgreen;
 }
