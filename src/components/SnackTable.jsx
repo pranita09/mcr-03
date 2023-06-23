@@ -21,13 +21,25 @@ export const SnackTable = () => {
 
       sortedData.sort((a, b) => {
         if (order === "desc") {
-          return sortBy === "productName" || sortBy === "ingredients"
-            ? b[sortBy].toLowerCase() - a[sortBy].toLowerCase()
-            : b[sortBy] - a[sortBy];
+          if (sortBy === "productName") {
+            return b[sortBy].toLowerCase() - a[sortBy].toLowerCase();
+          } else if (sortBy === "ingredients") {
+            return (
+              b[sortBy].join().toLowerCase() - a[sortBy].join().toLowerCase()
+            );
+          } else {
+            return b[sortBy] - a[sortBy];
+          }
         } else {
-          return sortBy === "productName" || sortBy === "ingredients"
-            ? a[sortBy].toLowerCase() - b[sortBy].toLowerCase()
-            : a[sortBy] - b[sortBy];
+          if (sortBy === "productName") {
+            return a[sortBy].toLowerCase() - b[sortBy].toLowerCase();
+          } else if (sortBy === "ingredients") {
+            return (
+              a[sortBy].join().toLowerCase() - b[sortBy].join().toLowerCase()
+            );
+          } else {
+            return a[sortBy] - b[sortBy];
+          }
         }
       });
     }
