@@ -21,29 +21,33 @@ export const SnackTable = () => {
 
       sortedData.sort((a, b) => {
         if (order === "desc") {
-          return b[sortBy] < a[sortBy] ? -1 : 1;
+          return sortBy === "productName" || sortBy === "ingredients"
+            ? b[sortBy].toLowerCase() - a[sortBy].toLowerCase()
+            : b[sortBy] - a[sortBy];
         } else {
-          return a[sortBy] < b[sortBy] ? -1 : 1;
+          return sortBy === "productName" || sortBy === "ingredients"
+            ? a[sortBy].toLowerCase() - b[sortBy].toLowerCase()
+            : a[sortBy] - b[sortBy];
         }
       });
     }
-
+    console.log(sortedData);
     return sortedData;
   };
 
-  const filteredSnacks = searchInput
-    ? getSortedData().filter((snack) =>
-        snack.product_name
-          .toLowerCase()
-          .includes(
-            searchInput.toLowerCase() ||
-              snack.ingredients
-                .join(" ")
-                .toLowerCase()
-                .includes(searchInput.toLowerCase())
-          )
-      )
-    : snacks;
+  const filteredSnacks = getSortedData().filter(
+    (snack) =>
+      searchInput === "" ||
+      snack.productName
+        .toLowerCase()
+        .includes(
+          searchInput.toLowerCase() ||
+            snack.ingredients
+              .join(" ")
+              .toLowerCase()
+              .includes(searchInput.toLowerCase())
+        )
+  );
 
   return (
     <div>
@@ -61,10 +65,10 @@ export const SnackTable = () => {
           <thead className="border-2">
             <tr className="border-2">
               <th onClick={() => sortOrderHandle("id")}>Id</th>
-              <th onClick={() => sortOrderHandle("product_name")}>
+              <th onClick={() => sortOrderHandle("productName")}>
                 Product Name
               </th>
-              <th onClick={() => sortOrderHandle("product_weight")}>
+              <th onClick={() => sortOrderHandle("productWeight")}>
                 Product Weight
               </th>
               <th onClick={() => sortOrderHandle("price")}>Price (INR)</th>
@@ -78,8 +82,8 @@ export const SnackTable = () => {
             {filteredSnacks?.map((snack) => (
               <tr key={snack.id}>
                 <td>{snack.id}</td>
-                <td>{snack.product_name}</td>
-                <td>{snack.product_weight}g</td>
+                <td>{snack.productName}</td>
+                <td>{snack.productWeight}g</td>
                 <td>{snack.price}</td>
                 <td>{snack.calories}</td>
                 <td>{snack.ingredients.join(", ")}</td>
